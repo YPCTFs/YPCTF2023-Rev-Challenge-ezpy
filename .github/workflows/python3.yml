@@ -1,0 +1,29 @@
+name: Python3
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.8'
+
+    - name: Gen Pyc
+      run: python gen.py
+
+    - name: Run tests
+      run: python -m unittest -v check_chall
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ezpy
+        path: target/
